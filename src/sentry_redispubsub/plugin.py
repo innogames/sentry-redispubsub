@@ -35,7 +35,7 @@ class RedisPubSubPlugin(Plugin):
         Check if plugin is configured.
         """
         params = self.get_option
-        return bool(params('host', project) and params('port', project)) and params('db', project)) and params('channel_name', project))
+        return bool(params('host', project) and params('port', project) and params('db', project) and params('channel_name', project))
 
     def post_process(self, group, event, is_new, is_sample, **kwargs):
         """
@@ -59,4 +59,4 @@ class RedisPubSubPlugin(Plugin):
         metric.append(group.first_seen)
 
         client = redis.StrictRedis(host, port, db)
-		client.publish(channel_name, json.dumps(metric, sort_keys=True))
+        client.publish(channel_name, json.dumps(metric, sort_keys=True))
