@@ -9,14 +9,23 @@ Details
 The queue will get pushed a json payload with the following fields
 
 project -> Project slug
+
 logger -> Used logger
+
 level -> Error level
+
 msg -> Group message
+
 times_seen -> Number of times seen
+
 last_seen -> Unixtimestamp xxxxxxxx.0  #Please remove the trailing .0
+
 first_seen -> Unixtimestamp xxxxxxxx.0 #Please remove the trailing .0
+
 url -> Absolut url
+
 checksum -> Checksum of group
+
 
 Install
 -------
