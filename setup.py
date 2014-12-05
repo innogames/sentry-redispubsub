@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'sentry>=5.3.3',
-    'statsd',
+    'redis',
 ]
 
 f = open('README.rst')
@@ -11,12 +11,12 @@ readme = f.read()
 f.close()
 
 setup(
-    name='sentry-statsd',
-    version='0.0.2',
-    author='Vladimir Rudnyh',
-    author_email='dreadatour@gmail.com',
-    url='http://github.com/dreadatour/sentry-statsd',
-    description='A Sentry extension which send errors stats to StatsD',
+    name='sentry-redispubsub',
+    version='0.0.1',
+    author='Anthony Boah',
+    author_email='anthony.boah@innogames.com',
+    url='https://github.com/innogames/sentry-redispubsub',
+    description='A Sentry extension which sends errors to a Redis pub/sub queue',
     long_description=readme,
     license='WTFPL',
     package_dir={'': 'src'},
@@ -24,7 +24,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'sentry.plugins': [
-            'sentry_statsd = sentry_statsd.plugin:StatsdPlugin'
+            'sentry_redispubsub = sentry_redispubsub.plugin:RedisPubSubPlugin'
         ],
     },
     include_package_data=True,
@@ -37,5 +37,5 @@ setup(
         'Framework :: Django',
         'Topic :: Software Development'
     ],
-    keywords='sentry statsd',
+    keywords='sentry redis pubsub message queue msg',
 )
