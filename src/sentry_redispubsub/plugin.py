@@ -2,13 +2,15 @@
 """
 sentry_redispubsub.plugin
 """
-import redis
+
 from sentry.plugins import Plugin
 
 import sentry_redispubsub
 from sentry_redispubsub.forms import RedisPubSubOptionsForm
 
 import json
+import redis
+from time import mktime
 
 
 class RedisPubSubPlugin(Plugin):
@@ -35,7 +37,7 @@ class RedisPubSubPlugin(Plugin):
         Check if plugin is configured.
         """
         params = self.get_option
-        return bool(params('host', project) and params('port', project) and params('db', project) and params('channel_name', project))
+        return bool(params('host', project) and params('port', project) and params('channel_name', project))
 
     def post_process(self, group, event, is_new, is_sample, **kwargs):
         """
@@ -49,14 +51,16 @@ class RedisPubSubPlugin(Plugin):
         db = self.get_option('db', group.project)
         channel_name = self.get_option('channel_name', group.project)
 
-        metric = []
-        metric.append(group.project.slug)
-        metric.append(group.logger)
-        metric.append(group.get_level_display())
-        metric.append(group.message)
-        metric.append(group.times_seen)
-        metric.append(group.last_seen)
-        metric.append(group.first_seen)
+        metric = {}
+        metric['project'] = group.project.slug
+        metric['logger'] = group.logger
+        metric['level'] = group.get_level_display()
+        metric['msg'] = group.message
+        metric['times_seen'] = group.times_seen
+        metric['last_seen'] = mktime(group.last_seen.utctimetuple())
+        metric['first_seen'] = mktime(group.first_seen.utctimetuple())
+        metric['url'] = group.get_absolute_url()
+        metric['checksum'] = group.checksum
 
         client = redis.StrictRedis(host, port, db)
-        client.publish(channel_name, json.dumps(metric, sort_keys=True))
+        client.publish(channel_name, json.dumps(metric, sort_keys=False))

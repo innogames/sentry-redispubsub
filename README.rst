@@ -1,7 +1,22 @@
 sentry-redispubsub
 =============
 
-An extension for Sentry to send errors metrics to a Redis pub/sub message queue.
+An extension for Sentry to send error metrics to a Redis pub/sub message queue.
+
+Details
+-------
+
+The queue will get pushed a json payload with the following fields
+
+project -> Project slug
+logger -> Used logger
+level -> Error level
+msg -> Group message
+times_seen -> Number of times seen
+last_seen -> Unixtimestamp xxxxxxxx.0  #Please remove the trailing .0
+first_seen -> Unixtimestamp xxxxxxxx.0 #Please remove the trailing .0
+url -> Absolut url
+checksum -> Checksum of group
 
 Install
 -------
@@ -15,7 +30,7 @@ Configuration
 -------------
 
 Go to your project's configuration page (Projects -> [Project]) and select the
-"RedisPubSub" tab. Enter the Redis host, port and prefix for metrics: @todo: Add additional help
+"RedisPubSub" tab. Enter the Redis host, port, db number, channel name for metrics:
 
 .. image:: https://github.com/innogames/sentry-redispubsub/raw/master/docs/images/options.png
 

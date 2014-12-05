@@ -24,7 +24,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'sentry.plugins': [
-            'sentry_redispubsub = sentry_redispubsub.plugin:RedisPubSubPlugin'
+            'redispubsub = sentry_redispubsub.plugin:RedisPubSubPlugin'
         ],
     },
     include_package_data=True,
